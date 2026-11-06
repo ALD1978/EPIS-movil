@@ -19,7 +19,7 @@ function pide(msg){
   document.getElementById("b").innerHTML=`<h1>EPIS · Revisiones</h1><p class="s">Milsa Trillo Galicia · Prevención</p>
   ${msg?`<p class="w">${esc(msg)}</p>`:""}
   <p>Para empezar, carga el <b>archivo de datos</b> que te ha pasado Prevención (<b>EPIS-datos-movil_vN.json</b>, por WhatsApp, correo o Teams). Guárdalo antes en el móvil.</p>
-  <label class="btn">📂 Cargar archivo de datos<input type="file" accept=".json,application/json" hidden id="f"></label>
+  <label class="btn">📂 Cargar archivo de datos<input type="file" hidden id="f"></label>
   <p class="n">Los datos se guardan solo en este móvil. Las revisiones que hagas se envían a Prevención con «📤 Enviar».</p>
   <footer>© Milsa Trillo Galicia · Prevención de Riesgos Laborales</footer>`;
   document.getElementById("f").onchange=async e=>{const f=e.target.files[0];if(!f)return;
@@ -31,7 +31,7 @@ function api(I){
   function idb(mode,fn){return new Promise((ok,ko)=>{const r=indexedDB.open(DB,1);r.onupgradeneeded=()=>r.result.createObjectStore("d");
     r.onsuccess=()=>{const t=r.result.transaction("d",mode),q=fn(t.objectStore("d"));t.oncomplete=()=>ok(q&&q.result);t.onerror=()=>ko(t.error)};r.onerror=()=>ko(r.error)})}
   window.EPIS_PWA={info:()=>I.ver+" · generado el "+I.fecha.split("-").reverse().join("/"),
-    cargar(){const i=document.createElement("input");i.type="file";i.accept=".json,application/json";
+    cargar(){const i=document.createElement("input");i.type="file";
       i.onchange=async()=>{const f=i.files[0];if(!f)return;let p;
         try{p=JSON.parse(await f.text())}catch(e){return alert("Ese archivo no es un archivo de datos de EPIS.")}
         if(!p||p.tipo!=="epis-datos-movil"||!p.D)return alert("Ese archivo no es un archivo de datos de EPIS (EPIS-datos-movil_vN.json).");
